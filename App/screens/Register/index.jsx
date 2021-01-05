@@ -2,7 +2,6 @@ import React from "react";
 import {
   View,
   Text,
-  StyleSheet,
   SafeAreaView,
   TextInput,
   TouchableOpacity,
@@ -11,8 +10,36 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { styles } from "../../utils/styles";
 
+//reducer
+import { actions } from "./actions";
+import { initialState } from "./constants";
+import { reducer } from "./reducer";
+
+//firebase
+import firebase from "../../utils/firebase";
+
 const Register = ({ navigation }) => {
-  const [teacher, setTeacher] = React.useState(false);
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+
+  const handleChange = (payload, name) => {
+    dispatch({ type: actions.setUser, name, payload });
+  };
+
+  const onUpload = async () => {
+    console.log("entra a la función");
+    try {
+      dispatch({ type: actions.postRegister });
+      const user = state.user;
+      await firebase
+        .auth()
+        .createUserWithEmailAndPassword(user.email, user.password);
+      dispatch({ type: actions.postRegisterSuccess });
+      console.log("Se registró OwO");
+    } catch (error) {
+      dispatch({ type: actions.postRegisterError, payload: error.code });
+      console.log("Valió vrga compadre");
+    }
+  };
   return (
     <View style={styles.container}>
       <StatusBar style="dark" />
@@ -20,40 +47,69 @@ const Register = ({ navigation }) => {
         <Text style={styles.text}>Register Screen</Text>
         <View style={styles.row_between}>
           <Text style={styles.inputLabel}>¿Es docente?</Text>
-          <Switch value={teacher} onValueChange={() => setTeacher(!teacher)} />
+          <Switch
+            value={state.user.teacher}
+            onValueChange={() => dispatch({ type: actions.toggleTeacher })}
+          />
         </View>
-
-        {teacher ? (
+        {state.user.teacher ? (
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Nombre</Text>
-            <TextInput style={styles.input} placeholder="Nombre" />
-            <Text style={styles.inputLabel}>Correo electrónico</Text>
-            <TextInput style={styles.input} placeholder="Correo electrónico" />
+            <TextInput
+              onChangeText={(text) => handleChange(text, "name")}
+              value={state.user.name}
+              style={styles.input}
+              placeholder="Su nombre completo"
+            />
+            <Text style={styles.inputLabel}>Correo Institucional</Text>
+            <TextInput
+              onChangeText={(text) => handleChange(text, "email")}
+              value={state.user.email}
+              style={styles.input}
+              placeholder="Correo Institucional"
+            />
             <Text style={styles.inputLabel}>Contraseña</Text>
             <TextInput
+              value={state.user.password}
+              onChangeText={(text) => handleChange(text, "password")}
               secureTextEntry
               textContentType="password"
               style={styles.input}
               placeholder="Contraseña"
             />
-            <Text style={styles.inputLabel}>Matrícula</Text>
-            <TextInput style={styles.input} placeholder="Matrícula" />
           </View>
         ) : (
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Nombre</Text>
-            <TextInput style={styles.input} placeholder="Nombre" />
-            <Text style={styles.inputLabel}>Correo electrónico</Text>
-            <TextInput style={styles.input} placeholder="Correo electrónico" />
+            <TextInput
+              onChangeText={(text) => handleChange(text, "name")}
+              value={state.user.name}
+              style={styles.input}
+              placeholder="Su nombre completo"
+            />
+            <Text style={styles.inputLabel}>Correo Institucional</Text>
+            <TextInput
+              onChangeText={(text) => handleChange(text, "email")}
+              value={state.user.email}
+              style={styles.input}
+              placeholder="example@tecmx.net"
+            />
+            <Text style={styles.inputLabel}>Número de control</Text>
+            <TextInput
+              value={state.user.controlNumber}
+              onChangeText={(text) => handleChange(text, "controlNumber")}
+              style={styles.input}
+              placeholder="17445683"
+            />
             <Text style={styles.inputLabel}>Contraseña</Text>
             <TextInput
+              value={state.user.password}
+              onChangeText={(text) => handleChange(text, "password")}
               secureTextEntry
               textContentType="password"
               style={styles.input}
               placeholder="Contraseña"
             />
-            <Text style={styles.inputLabel}>Número de control</Text>
-            <TextInput style={styles.input} placeholder="Número de control" />
           </View>
         )}
         <TouchableOpacity>
@@ -64,8 +120,8 @@ const Register = ({ navigation }) => {
             Ya tengo una cuenta creada
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.text}>Registrarme</Text>
+        <TouchableOpacity onPress={onUpload} style={styles.button}>
+          <Text style={styles.text}>{state.buttonMsg}</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </View>

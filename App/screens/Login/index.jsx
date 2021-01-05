@@ -11,7 +11,10 @@ import { StatusBar } from "expo-status-bar";
 
 import { styles } from "../../utils/styles";
 
+import { LoginContext } from "../../Navigators/";
+
 const Login = ({ navigation }) => {
+  const { setIsLogged } = React.useContext(LoginContext);
   return (
     <View style={styles.container}>
       <StatusBar style="dark" />
@@ -32,7 +35,10 @@ const Login = ({ navigation }) => {
             ¿no tienes usuario? Crea tu cuenta aquí
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          onPress={() => setIsLogged(true)}
+          style={styles.button}
+        >
           <Text style={styles.text}>Entrar</Text>
         </TouchableOpacity>
       </SafeAreaView>
