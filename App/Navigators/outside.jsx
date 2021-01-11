@@ -10,8 +10,8 @@ const Stack = createStackNavigator();
 const OutsideNavigator = () => {
   return (
     <Stack.Navigator headerMode={false}>
-      <Stack.Screen name="register" component={Register} />
       <Stack.Screen name="login" component={Login} />
+      <Stack.Screen name="register" component={Register} />
     </Stack.Navigator>
   );
 };

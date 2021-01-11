@@ -30,16 +30,28 @@ const Register = ({ navigation }) => {
     try {
       dispatch({ type: actions.postRegister });
       const user = state.user;
-      await firebase
+      const response = await firebase
         .auth()
         .createUserWithEmailAndPassword(user.email, user.password);
+      const uid = response.user.uid;
+      const newUser = {
+        name: state.user.name,
+        teacher: state.user.teacher,
+        email: user.email,
+        controlNumber: user.controlNumber,
+      };
+      firebase
+        .database()
+        .ref("users/" + uid)
+        .set(newUser);
       dispatch({ type: actions.postRegisterSuccess });
-      console.log("Se registró OwO");
+      navigation.navigate("login");
     } catch (error) {
       dispatch({ type: actions.postRegisterError, payload: error.code });
       console.log("Valió vrga compadre");
     }
   };
+
   return (
     <View style={styles.container}>
       <StatusBar style="dark" />
