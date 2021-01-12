@@ -19,7 +19,7 @@ function RegisterClassTeacher() {
     console.log(data);
     await firebase
       .database()
-      .ref("classes/" + code)
+      .ref("classes/" + code.toLocaleUpperCase())
       .set(data);
   };
 

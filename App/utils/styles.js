@@ -16,6 +16,14 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
+  dashboardContainer: {
+    backgroundColor: COLORS.primary,
+    flex: 1,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+  },
   safe_area: {
     flex: 1,
     margin: 5,
@@ -64,5 +72,25 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
+  },
+  classButton: {
+    width: "95%",
+    height: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 10,
+    borderRadius: 25,
+    backgroundColor: "#fff",
+  },
+  classButtonText: {
+    color: "black",
+    fontWeight: "bold",
+    fontSize: 30,
+    letterSpacing: 2,
+  },
+  DashboardTitle: {
+    color: COLORS.primary_text,
+    fontSize: 50,
+    fontWeight: "bold",
   },
 });

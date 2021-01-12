@@ -5,6 +5,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import firebase from "../../utils/firebase";
 
 import { LoginContext } from "../../Navigators";
+import { styles } from "../../utils/styles";
 
 function Dashboard() {
   const { user } = React.useContext(LoginContext);
@@ -34,30 +35,13 @@ function Dashboard() {
   }, []);
 
   return (
-    <View style={{ flex: 1, alignItems: "center" }}>
+    <View style={styles.dashboardContainer}>
+      <Text style={styles.DashboardTitle}>Mis Clases</Text>
       {myclasses.length === 0 && <Text>Sin clases registradas</Text>}
       {myclasses.map((item, idx) => {
         return (
-          <TouchableOpacity
-            style={{
-              elevation: 1,
-              width: "90%",
-              height: 100,
-              justifyContent: "center",
-              alignItems: "center",
-              marginVertical: 10,
-              borderRadius: 1,
-            }}
-          >
-            <Text
-              style={{
-                color: "black",
-                fontWeight: "bold",
-                fontSize: 20,
-                letterSpacing: 2,
-              }}
-              key={idx}
-            >
+          <TouchableOpacity style={styles.classButton}>
+            <Text style={styles.classButtonText} key={idx}>
               {item}
             </Text>
           </TouchableOpacity>

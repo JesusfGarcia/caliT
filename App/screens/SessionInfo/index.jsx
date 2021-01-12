@@ -1,14 +1,18 @@
 import * as React from "react";
 
-import { View, Text, Button } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+
+import { styles } from "../../utils/styles";
 
 import { LoginContext } from "../../Navigators";
 
 function SessionScreen() {
   const { onLogout } = React.useContext(LoginContext);
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Button onPress={onLogout} title="Logout" />
+    <View style={styles.insideContainer}>
+      <TouchableOpacity onPress={onLogout} style={styles.button}>
+        <Text style={styles.text}>Salir</Text>
+      </TouchableOpacity>
     </View>
   );
 }

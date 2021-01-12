@@ -51,7 +51,7 @@ const InsideNavigator = () => {
       tabBarOptions={{
         inactiveBackgroundColor: COLORS.primary_dark,
         activeBackgroundColor: COLORS.primary_light,
-        activeTintColor: COLORS.secondary_text,
+        activeTintColor: "black",
         inactiveTintColor: "#ffeeff",
       }}
     >
