@@ -10,6 +10,9 @@ import DashboardTeacher from "../screens/DashboardTeacher";
 import DashboardStudent from "../screens/DashboardStudent";
 import RegisterClassTeacher from "../screens/RegisterClassTeacher";
 import RegisterClassStudent from "../screens/RegisterClassStudent";
+import SessionScreen from "../screens/SessionInfo";
+
+import { COLORS } from "../utils/COLORS";
 
 const Tabs = createBottomTabNavigator();
 
@@ -34,7 +37,7 @@ const InsideNavigator = () => {
         .ref("users/" + user.uid)
         .once("value");
       setLoading(false);
-      setIsTeacher(response.teacher);
+      setIsTeacher(response.val().teacher);
     };
     getRolInfo();
   }, [user]);
@@ -44,7 +47,14 @@ const InsideNavigator = () => {
   }
 
   return (
-    <Tabs.Navigator>
+    <Tabs.Navigator
+      tabBarOptions={{
+        inactiveBackgroundColor: COLORS.primary_dark,
+        activeBackgroundColor: COLORS.primary_light,
+        activeTintColor: COLORS.secondary_text,
+        inactiveTintColor: "#ffeeff",
+      }}
+    >
       {isTeacher ? (
         <>
           <Tabs.Screen name="Inicio" component={DashboardTeacher} />
@@ -62,6 +72,7 @@ const InsideNavigator = () => {
           />
         </>
       )}
+      <Tabs.Screen name="Sesión" component={SessionScreen} />
     </Tabs.Navigator>
   );
 };
