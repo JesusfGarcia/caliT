@@ -2,12 +2,20 @@ const defaultAnswers = [
   {
     id: 1,
     text: "Totalmente en desacuerdo",
+  },
+  {
     id: 2,
     text: "En desacuerdo",
+  },
+  {
     id: 3,
     text: "Regular",
+  },
+  {
     id: 4,
     text: "De acuerdo",
+  },
+  {
     id: 5,
     text: "Totalmente de acuerdo",
   },
@@ -49,3 +57,5 @@ const questions = [
     answers: defaultAnswers,
   },
 ];
+
+export default questions;

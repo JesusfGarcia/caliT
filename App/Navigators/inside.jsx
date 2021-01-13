@@ -11,6 +11,7 @@ import DashboardStudent from "../screens/DashboardStudent";
 import RegisterClassTeacher from "../screens/RegisterClassTeacher";
 import RegisterClassStudent from "../screens/RegisterClassStudent";
 import SessionScreen from "../screens/SessionInfo";
+import Quiz from "../screens/quiz";
 
 import { COLORS } from "../utils/COLORS";
 

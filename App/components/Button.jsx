@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     marginTop: 20,
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
   },
 });
 
