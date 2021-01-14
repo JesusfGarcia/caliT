@@ -18,7 +18,26 @@ function Dashboard() {
   const [showQuiz, setShowQuiz] = React.useState(false);
   const [quizSelected, setQuizSelected] = React.useState("");
   React.useState(() => {
-    const getMyClasses = async () => {
+    const classes = firebase.database().ref("classes/");
+    classes.on("value", (snapshot) => {
+      try {
+        const data = snapshot.val();
+        const newClasses = [];
+
+        for (let item in data) {
+          if (data.hasOwnProperty(item) && data[item].answers) {
+            for (let students in data[item].answers) {
+              students === user.uid && newClasses.push(item);
+            }
+          }
+        }
+        setClasses(newClasses);
+      } catch (error) {
+        alert('Ocurrió un error en la sesión')
+      }
+    });
+
+    /*const getMyClasses = async () => {
       const response = await firebase.database().ref("classes/").once("value");
       const data = response.val();
       const newClasses = [];
@@ -33,7 +52,7 @@ function Dashboard() {
       setClasses(newClasses);
     };
 
-    getMyClasses();
+    getMyClasses();*/
   }, []);
 
   const SelectQuiz = (value) => {

@@ -8,19 +8,24 @@ import { LoginContext } from "../../Navigators/index";
 
 import firebase from "../../utils/firebase";
 
-function RegisterClassTeacher() {
+function RegisterClassTeacher({ navigation }) {
   const { user } = React.useContext(LoginContext);
   const [code, setCode] = React.useState("");
 
   const registerClass = async () => {
-    const data = {
-      owner: user.uid,
-    };
-    console.log(data);
-    await firebase
-      .database()
-      .ref("classes/" + code.toLocaleUpperCase())
-      .set(data);
+    try {
+      const data = {
+        owner: user.uid,
+      };
+      await firebase
+        .database()
+        .ref("classes/" + code.toLocaleUpperCase())
+        .set(data);
+      setCode("");
+      navigation.navigate("Inicio");
+    } catch (error) {
+      alert("Ocurrió un error en el servidor");
+    }
   };
 
   return (

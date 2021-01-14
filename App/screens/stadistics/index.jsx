@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Button } from "react-native";
 
 import firebase from "../../utils/firebase";
 
@@ -13,6 +13,7 @@ import { actions } from "./actions";
 import { reducer } from "./reducer";
 import { initialState } from "./constants";
 import { TouchableOpacity } from "react-native-gesture-handler";
+
 
 function Stadistics() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -53,6 +54,7 @@ function Stadistics() {
   }, []);
 
   const goBack = () => {
+    console.log("entra aquí");
     setShowSta(false);
   };
 
@@ -60,9 +62,7 @@ function Stadistics() {
     <View style={styles.dashboardContainer}>
       <View style={styles.row_between}>
         <Text style={styles.DashboardTitle}>Estadisticas</Text>
-        <TouchableOpacity onPress={goBack}>
-          <Text style={styles.goBackButton}>Atrás</Text>
-        </TouchableOpacity>
+        <Button onPress={goBack} title="Atrás" />
       </View>
 
       <ScrollView style={styles.QuestionsContainer}>
