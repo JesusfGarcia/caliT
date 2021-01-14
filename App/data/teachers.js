@@ -54,7 +54,7 @@ const questions = [
   },
   {
     question: "Comentarios sobre la clase",
-    answers: defaultAnswers,
+    answers: [],
   },
 ];
 

@@ -93,4 +93,19 @@ export const styles = StyleSheet.create({
     fontSize: 50,
     fontWeight: "bold",
   },
+  QuestionsContainer: {
+    width: "100%",
+    height: "100%",
+    paddingRight: 20,
+  },
+  QuestionText: {
+    color: COLORS.primary_text,
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  AnswersText: {
+    color: COLORS.primary_dark,
+    fontWeight: "bold",
+    fontSize: 16,
+  }
 });
