@@ -4,7 +4,7 @@ import { View, Text, ScrollView } from "react-native";
 
 import firebase from "../../utils/firebase";
 
-import { LoginContext } from "../../Navigators";
+import { DashboardContext } from "../DashboardTeacher";
 import { styles } from "../../utils/styles";
 
 import Questions from "../../data/teachers";
@@ -12,39 +12,59 @@ import Questions from "../../data/teachers";
 import { actions } from "./actions";
 import { reducer } from "./reducer";
 import { initialState } from "./constants";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 function Stadistics() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
-  const { user } = React.useContext(LoginContext);
+  const { classId, setShowSta } = React.useContext(DashboardContext);
 
   React.useEffect(() => {
     const getData = async () => {
-      const response = await firebase
-        .database()
-        .ref("classes/ABCDEF")
-        .once("value");
-      const answers = response.val().answers;
-      const newStadistics = state.stadistics;
-      //console.log(answers);
-      for (let student in answers) {
-        if (answers[student].complete) {
-          //console.log(answers[student].answers);
-          answers[student].answers.map((item, idx) => {
-            if (idx !== 7) {
-              newStadistics[idx][item - 1].push("1");
-            }
-          });
+      try {
+        const response = await firebase
+          .database()
+          .ref(`classes/${classId}`)
+          .once("value");
+        const answers = response.val().answers;
+        const newStadistics = [
+          [[], [], [], [], []],
+          [[], [], [], [], []],
+          [[], [], [], [], []],
+          [[], [], [], [], []],
+          [[], [], [], [], []],
+          [[], [], [], [], []],
+          [[], [], [], [], []],
+        ];
+        for (let student in answers) {
+          if (answers[student].complete) {
+            answers[student].answers.map((item, idx) => {
+              if (idx !== 7) {
+                newStadistics[idx][item - 1].push("1");
+              }
+            });
+          }
         }
+        dispatch({ type: actions.changeValue, payload: newStadistics });
+      } catch (error) {
+        alert("Ocurrió un error en la aplicación");
       }
-      console.log(newStadistics);
     };
     getData();
-    console.log(state);
-  });
+  }, []);
+
+  const goBack = () => {
+    setShowSta(false);
+  };
 
   return (
     <View style={styles.dashboardContainer}>
-      <Text style={styles.DashboardTitle}>Estadisticas</Text>
+      <View style={styles.row_between}>
+        <Text style={styles.DashboardTitle}>Estadisticas</Text>
+        <TouchableOpacity onPress={goBack}>
+          <Text style={styles.goBackButton}>Atrás</Text>
+        </TouchableOpacity>
+      </View>
+
       <ScrollView style={styles.QuestionsContainer}>
         {Questions.map((item, idx) => {
           return (

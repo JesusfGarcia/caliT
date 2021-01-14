@@ -71,6 +71,7 @@ export const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     width: "100%",
   },
   classButton: {
@@ -107,5 +108,10 @@ export const styles = StyleSheet.create({
     color: COLORS.primary_dark,
     fontWeight: "bold",
     fontSize: 16,
-  }
+  },
+  goBackButton: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "red",
+  },
 });

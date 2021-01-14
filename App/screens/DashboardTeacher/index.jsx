@@ -9,11 +9,13 @@ import { styles } from "../../utils/styles";
 
 import Stadistics from "../stadistics";
 
+export const DashboardContext = React.createContext();
+
 function Dashboard() {
   const { user } = React.useContext(LoginContext);
   const [myclasses, setClasses] = React.useState([]);
   const [classId, setClassId] = React.useState("");
-  const [showSta, setShowSta] = React.useState(true);
+  const [showSta, setShowSta] = React.useState(false);
 
   React.useEffect(() => {
     const classes = firebase.database().ref("classes/");
@@ -38,8 +40,17 @@ function Dashboard() {
     });
   }, []);
 
+  const selectClass = (id) => {
+    setShowSta(true);
+    setClassId(id);
+  };
+
   if (showSta) {
-    return <Stadistics />;
+    return (
+      <DashboardContext.Provider value={{ classId, setShowSta: setShowSta }}>
+        <Stadistics />
+      </DashboardContext.Provider>
+    );
   } else {
     return (
       <View style={styles.dashboardContainer}>
@@ -47,7 +58,10 @@ function Dashboard() {
         {myclasses.length === 0 && <Text>Sin clases registradas</Text>}
         {myclasses.map((item, idx) => {
           return (
-            <TouchableOpacity style={styles.classButton}>
+            <TouchableOpacity
+              onPress={() => selectClass(item)}
+              style={styles.classButton}
+            >
               <Text style={styles.classButtonText} key={idx}>
                 {item}
               </Text>
